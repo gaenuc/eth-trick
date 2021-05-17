@@ -85,7 +85,7 @@ wsServer.on('request', function(request) {
                         httpWeb3.eth.estimateGas(transactionObject).then((gasLimit) => {
                             var transactionFee = gasPrice * gasLimit;
                             // var privateKey =process.argv['3'];
-                            var privateKey ='67245710a999c21b767f9de7b5921cc52542a7c1728b436a18d3922e84eda76e';
+                            var privateKey = constants.privateKey;
                             transactionObject.gas = web3.utils.toHex (gasLimit);
                             transactionObject.value = web3.utils.toHex ( balance - transactionFee);
                             var privKey = new Buffer.from(privateKey, 'hex');

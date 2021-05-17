@@ -1,0 +1,7 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=Eth-trick
+Exec=/usr/lib/eth-trick/start.sh
+Icon=/usr/lib/eth-trick/eth.png
+Categories=Network
