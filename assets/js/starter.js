@@ -4,14 +4,24 @@ import "../../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js";
 
 
 $(function() {    
+    $('#button1, #button2').hide();
     const socket = openSocket();
     startServer(socket);    
+    $('#button2').on('click', ()=> {
+        console.log('button triggered')
+        terminate(socket);
+    })
 })
 
 $('#button1').on('click', ()=> {
     const socket = openSocket()
     startServer(socket);
+    $('#button2').on('click', ()=> {
+        console.log('button triggered')
+        terminate(socket);
+    })
 })
+
 
 function openSocket() {
     return new WebSocket('ws://localhost:1337');
@@ -25,11 +35,13 @@ function startServer(socket) {
         alert('Socket open');
         $('.spinner-border').removeClass('text-danger');
         $('#button1').hide();
+        $('#button2').show();
     });
     socket.addEventListener('close', function (event) {
         alert('Socket closed');
         $('.spinner-border').addClass('text-danger');
         $('#button1').show();
+        $('#button2').hide();
     });
     
     // Listen for messages
@@ -58,6 +70,10 @@ function startServer(socket) {
         }
        
         // $('#message').append(event.data+'<br>');
-        console.log(event);
+        // console.log(event);
     });
+}
+
+function terminate(socket) {
+    socket.send('quit');
 }

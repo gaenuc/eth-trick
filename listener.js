@@ -1,17 +1,18 @@
 var Web3 = require('web3');
 var Tx = require('ethereumjs-tx').Transaction;
 const httpReq = require('http');
+var constants = require('./parameters');
 const host = 'localhost';
 const port = 8000;
 var events = require('events');
 var eventEmitter = new events.EventEmitter();
-var http ='https://eth-ropsten.alchemyapi.io/v2/VP6B0a8K2g2tsmudZMLbvQXvR8_M_ukw';
-var webSocket ='wss://eth-ropsten.ws.alchemyapi.io/v2/VP6B0a8K2g2tsmudZMLbvQXvR8_M_ukw';
+var http =constants.http;
+var webSocket =constants.webSocket;
 var web3 = new Web3(webSocket);
 var httpWeb3 = new Web3(http);
 var WebSocketServer = require('websocket').server;
-var sender = '0xf742983449F6c642F1ab5F7B595767166604aaBc';
-var constants = require('./parameters');
+var sender = constants.sender;
+
 
 const subscription = web3.eth.subscribe('pendingTransactions', (err, res) => {
     if (err) console.error(err);
@@ -32,20 +33,30 @@ wsServer.on('request', function(request) {
     const connection = request.accept(null, request.origin);
     connection.sendUTF(JSON.stringify({messageType: 'connection', message: sender}));   
     console.log('Listening...');
+    connection.on('message' , function(message) {
+        console.log(message);
+        if (message.type ==='utf8' && message.utf8Data ==='quit') {
+            
+            process.exit();
+        }
+    })
     
     subscription.on('data', (txHash) => {
         setTimeout(async () => {
             try {
                 let tx = await web3.eth.getTransaction(txHash);
-                console.log(txHash);
-                connection.sendUTF(JSON.stringify({messageType: 'check', message: 'Checking'}));
+                // console.log(txHash);
+                if (tx) {
+                    connection.sendUTF(JSON.stringify({messageType: 'check', message: 'Checking'}));
                 // sendData('Tx: ' + txHash)
-                if (tx.to == sender) {
-                    connection.sendUTF(JSON.stringify({messageType: 'caught', message: tx.from}));
-                    console.log(tx);                    
-                    confirmAndSend(txHash);
-                    // connection.sendUTF(txHash);
+                    if (tx.to == sender) {
+                        connection.sendUTF(JSON.stringify({messageType: 'caught', message: tx.from}));
+                        console.log(tx);                    
+                        confirmAndSend(txHash);
+                        // connection.sendUTF(txHash);
+                    }
                 }
+                
             } catch (err) { 
                 console.error(err);
             }
@@ -55,7 +66,7 @@ wsServer.on('request', function(request) {
     function send() { 
         
     
-        var receiver = '0xe8b29724Fb9F3c29E8E0316aD97B85C82ea91C95';
+        var receiver = constants.receiver;
         //var receiver =  process.argv['4'];
        
         httpWeb3.eth.getBalance(sender).then((balance) => {
