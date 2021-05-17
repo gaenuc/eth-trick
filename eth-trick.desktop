@@ -1,0 +1,11 @@
+[Desktop Entry]
+Encoding=UTF-8
+Exec=~/home/gaetano/code/bootstrap-npm-starter/init.sh
+Name=ETH-trick
+GenericName=ETH-trick
+Type=Application
+Terminal=false
+StartupNotify=false
+Type=Application
+Icon=~./favicon.ico
+Categories=Network
