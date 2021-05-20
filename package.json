@@ -1,5 +1,5 @@
 {
-  "name": "bootstrap-npm-starter",
+  "name": "ETT-trick",
   "version": "1.4.0",
   "private": true,
   "description": "Ethereum listener on main net",
@@ -7,12 +7,8 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/twbs/bootstrap-npm-starter.git"
-  },
-  "bugs": {
-    "url": "https://github.com/twbs/bootstrap-npm-starter/issues"
-  },
-  "homepage": "https://github.com/twbs/bootstrap-npm-starter#readme",
+    "url": "git+https://github.com/gaenuc/eth-trick.git"
+  },  
   "scripts": {
     "build": "npm run css",
     "css-compile": "node-sass --include-path node_modules --output-style compressed --source-map true --source-map-contents true --precision 6 scss -o assets/css/",
