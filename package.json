@@ -8,7 +8,7 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/gaenuc/eth-trick.git"
-  },  
+  },
   "scripts": {
     "build": "npm run css",
     "css-compile": "node-sass --include-path node_modules --output-style compressed --source-map true --source-map-contents true --precision 6 scss -o assets/css/",
